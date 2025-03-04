@@ -9,11 +9,6 @@ pipeline {
         timestamps()
     }
     stages {
-        stage("Stop container") {
-            steps {
-                sh 'ssh root@192.168.200.106 \'docker stop go_app\''
-            }
-        }
         stage("Build dockerfile") {
             steps {
                 sh 'ssh root@192.168.200.106 \'docker build --tag go /root/jenkins\''
