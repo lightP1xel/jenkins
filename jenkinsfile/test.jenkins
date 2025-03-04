@@ -13,11 +13,11 @@ pipeline {
             steps {
                 script {
                     def isContainerRunning = sh(
-                        script: 'ssh root@192.168.200.106 "docker ps --filter "name=go" --format "{{.Names}}""',
+                        script: 'ssh root@192.168.200.106 "docker ps --filter "name=go_app" --format "{{.Names}}""',
                         returnStdout: true
                     ).trim()
 
-                    env.CONTAINER_RUNNING = isContainerRunning == "go" ? "true" : "false"
+                    env.CONTAINER_RUNNING = isContainerRunning == "go_app" ? "true" : "false"
                 }
             }
         }
@@ -28,7 +28,7 @@ pipeline {
             }
             steps {
                 echo 'Docker container запущен. Останавливаю!'
-                sh 'ssh root@192.168.200.106 \'docker stop go\''
+                sh 'ssh root@192.168.200.106 \'docker stop go_app\''
             }
         }
 
