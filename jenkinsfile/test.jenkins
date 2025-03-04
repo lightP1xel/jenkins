@@ -13,7 +13,7 @@ pipeline {
             steps {
                 script {
                     def isContainerRunning = sh(
-                        script: 'docker ps --filter "name=go" --format "{{.Names}}"',
+                        script: 'ssh root@192.168.200.106 "docker ps --filter "name=go" --format "{{.Names}}""',
                         returnStdout: true
                     ).trim()
 
