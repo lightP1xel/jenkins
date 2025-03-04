@@ -9,11 +9,6 @@ pipeline {
         timestamps()
     }
     stages {
-        stage("Connect to server via ssh") {
-            steps {
-                sh 'ssh root@192.168.200.106 \'hostname\''
-            }
-        }
         stage("Build dockerfile") {
             steps {
                 sh 'ssh root@192.168.200.106 \'docker build --tag go /root/jenkins/Dockerfile\''
