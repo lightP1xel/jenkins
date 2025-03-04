@@ -14,14 +14,9 @@ pipeline {
                 sh 'ssh root@192.168.200.106 \'hostname\''
             }
         }
-        stage("Go to work directory") {
-            steps {
-                sh 'ssh root@192.168.200.106 \'cd /root/jenkins\''
-            }
-        }
         stage("Build dockerfile") {
             steps {
-                sh 'ssh root@192.168.200.106 \'docker build --tag go .\''
+                sh 'ssh root@192.168.200.106 \'docker build --tag go /root/jenkins/Dockerfile\''
             }
         }
     }
