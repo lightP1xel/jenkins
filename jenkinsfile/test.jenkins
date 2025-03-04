@@ -14,5 +14,10 @@ pipeline {
                 sh 'ssh root@192.168.200.106 \'docker build --tag go /root/jenkins\''
             }
         }
+        stage("Docker run") {
+            steps {
+                sh 'ssh root@192.168.200.106 \'docker run --rm --name go_app -p 8081:8080 -d go\''
+            }
+        }
     }
 }
