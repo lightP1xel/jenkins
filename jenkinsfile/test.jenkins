@@ -17,7 +17,7 @@ pipeline {
                         returnStdout: true
                     ).trim()
 
-                    env.CONTAINER_RUNNING = isContainerRunning == "my-container" ? "true" : "false"
+                    env.CONTAINER_RUNNING = isContainerRunning == "go" ? "true" : "false"
                 }
             }
         }
