@@ -9,7 +9,7 @@ pipeline {
         timestamps()
     }
     stages {
-        stage("Build dockerfile") {
+        stage("Stop container") {
             steps {
                 sh 'ssh root@192.168.200.106 \'docker stop go_app\''
             }
