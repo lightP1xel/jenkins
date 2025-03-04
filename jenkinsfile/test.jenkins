@@ -9,7 +9,7 @@ pipeline {
         timestamps()
     }
     stages {
-        stage('Check Docker Container') {
+        stage('Check Docker Container status.') {
             steps {
                 script {
                     def isContainerRunning = sh(
@@ -22,31 +22,32 @@ pipeline {
             }
         }
 
-        stage('Run If Container Is Running') {
+        stage('Run If Container Is Running.') {
             when {
                 expression { return env.CONTAINER_RUNNING == "true" }
             }
             steps {
-                echo 'Docker container запущен. Останавливаю!'
+                echo 'Docker container is running. I will stop it now!'
                 sh 'ssh root@192.168.200.106 \'docker stop go_app\''
             }
         }
 
-        stage('Skip If Container Is Not Running') {
+        stage('Skip If Container Is Not Running.') {
             when {
                 expression { return env.CONTAINER_RUNNING == "false" }
             }
             steps {
-                echo 'Docker container не запущен. Пропускаю этот шаг!'
+                echo 'Docker container is not running. I will skip this step!'
             }
         }
 
-        stage("Build dockerfile") {
+        stage("Build docker container.") {
             steps {
                 sh 'ssh root@192.168.200.106 \'docker build --tag go /root/jenkins\''
             }
         }
-        stage("Docker run") {
+
+        stage("Run docker container.") {
             steps {
                 sh 'ssh root@192.168.200.106 \'docker run --rm --name go_app -p 8081:8080 -d go\''
             }
