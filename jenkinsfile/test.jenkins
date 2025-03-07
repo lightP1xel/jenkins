@@ -58,7 +58,7 @@ pipeline {
         }
         stage("Telegram notification") {
             steps {
-                sh 'ssh root@192.168.200.106 \'curl -s -X -H POST https://api.telegram.org/bot7765267101:AAG-tQAqLf1qng7Rd3ZYrBqK3RIlYs6BTDk/sendMessage -d chat_id=-1002430220793 -d text="Pipeline завершен! Build environment is ${env.DEPLOY_ENV}"\''
+                sh 'ssh root@192.168.200.106 \'curl -s -X -H POST https://api.telegram.org/bot7765267101:AAG-tQAqLf1qng7Rd3ZYrBqK3RIlYs6BTDk/sendMessage -d chat_id=-1002430220793 -d text="Pipeline завершен! Build environment is ${DEPLOY_ENV}"\''
             }
         }
     }
