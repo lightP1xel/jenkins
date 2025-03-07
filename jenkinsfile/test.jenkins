@@ -10,7 +10,7 @@ pipeline {
     }
     environment {
         DEPLOY_ENV = 'Production'
-        MY_CREDENTIALS = credentials('my-credential-id')
+        MY_CREDENTIALS = credentials('8016cbb3-a6d4-4154-b851-4bc1d24133e1')
     }
     stages {
         stage('Check Docker Container status.') {
