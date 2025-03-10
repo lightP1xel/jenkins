@@ -13,7 +13,6 @@ pipeline {
         MY_CREDENTIALS = credentials('8016cbb3-a6d4-4154-b851-4bc1d24133e1')
         TELEGRAM_BOT_TOKEN = '7765267101:AAG-tQAqLf1qng7Rd3ZYrBqK3RIlYs6BTDk'
         TELEGRAM_CHAT_ID = '-1002430220793'
-        ADDITIONAL_INFO = '\n User: ${MY_CREDENTIALS_USR}.\n Environment: ${DEPLOY_ENV}'
     }
     stages {
         stage("Telegram notification start build") {
@@ -83,19 +82,19 @@ pipeline {
     post {
             success {
                 script {
-                    def message = "✅ Build SUCCESSFUL: ${env.JOB_NAME} #${env.BUILD_NUMBER}.${ADDITIONAL_INFO}"
+                    def message = "✅ Build SUCCESSFUL: ${env.JOB_NAME} #${env.BUILD_NUMBER}.\n User: ${MY_CREDENTIALS_USR}.\n Environment: ${DEPLOY_ENV}"
                     sendTelegramMessage(message)
                 }
             }
             failure {
                 script {
-                    def message = "❌ Build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}.${ADDITIONAL_INFO}"
+                    def message = "❌ Build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}.\n User: ${MY_CREDENTIALS_USR}.\n Environment: ${DEPLOY_ENV}"
                     sendTelegramMessage(message)
                 }
             }
             aborted {
                 script {
-                    def message = "⚠️ Build ABORTED: ${env.JOB_NAME} #${env.BUILD_NUMBER}.${ADDITIONAL_INFO}"
+                    def message = "⚠️ Build ABORTED: ${env.JOB_NAME} #${env.BUILD_NUMBER}.\n User: ${MY_CREDENTIALS_USR}.\n Environment: ${DEPLOY_ENV}"
                     sendTelegramMessage(message)
                 }
             }
