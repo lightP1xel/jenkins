@@ -79,9 +79,7 @@ pipeline {
             }
         } 
     }
-}
-
-post {
+    post {
             success {
                 script {
                     def message = "✅ Build SUCCESSFUL: ${env.JOB_NAME} #${env.BUILD_NUMBER}. \n User: ${MY_CREDENTIALS}. \n Environment: ${DEPLOY_ENV}"
@@ -101,6 +99,7 @@ post {
                 }
             }
         }    
+}
 
 def sendTelegramMessage(String message) {
         def url = "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage"
