@@ -11,6 +11,8 @@ pipeline {
     environment {
         DEPLOY_ENV = 'Production'
         MY_CREDENTIALS = credentials('8016cbb3-a6d4-4154-b851-4bc1d24133e1')
+        TELEGRAM_BOT_TOKEN = '7765267101:AAG-tQAqLf1qng7Rd3ZYrBqK3RIlYs6BTDk'
+        TELEGRAM_CHAT_ID = '-1002430220793'
     }
     stages {
         stage('Check Docker Container status.') {
@@ -58,7 +60,21 @@ pipeline {
         }
         stage("Telegram notification") {
             steps {
-                sh 'ssh root@192.168.200.106 "curl -s -X POST https://api.telegram.org/bot7765267101:AAG-tQAqLf1qng7Rd3ZYrBqK3RIlYs6BTDk/sendMessage -d chat_id=-1002430220793 -d text="Pipeline завершен! Build environment is ${env.DEPLOY_ENV}. Build user is ${env.MY_CREDENTIALS_USR}"'
+                script {
+                    def message = "Build started: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+                    def url = "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage"
+                    def payload = """
+                    {
+                        "chat_id": "${TELEGRAM_CHAT_ID}",
+                        "text": "${message}"
+                    }
+                    """
+                    sh """
+                        curl -X POST ${url} \
+                        -H 'Content-Type: application/json' \
+                        -d '${payload}'
+                    """
+                }
             }
         }
     }
