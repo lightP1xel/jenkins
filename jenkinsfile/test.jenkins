@@ -90,7 +90,6 @@ pipeline {
                         "text": "${message}"
                     }
                     """
-                    if 
                     sh """
                         curl -X POST ${url} \
                         -H 'Content-Type: application/json' \
