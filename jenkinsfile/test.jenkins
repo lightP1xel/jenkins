@@ -15,6 +15,26 @@ pipeline {
         TELEGRAM_CHAT_ID = '-1002430220793'
     }
     stages {
+        stage("Telegram notification start build") {
+            steps {
+                script {
+                    def message = "Build started: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+                    def url = "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage"
+                    def payload = """
+                    {
+                        "chat_id": "${TELEGRAM_CHAT_ID}",
+                        "text": "${message}"
+                    }
+                    """
+                    sh """
+                        curl -X POST ${url} \
+                        -H 'Content-Type: application/json' \
+                        -d '${payload}'
+                    """
+                }
+            }
+        }
+
         stage('Check Docker Container status.') {
             steps {
                 script {
@@ -58,10 +78,11 @@ pipeline {
                 sh 'ssh root@192.168.200.106 \'docker run --rm --name go_app -p 8081:8080 -d go\''
             }
         }
-        stage("Telegram notification") {
+
+        stage("Telegram notification build status") {
             steps {
                 script {
-                    def message = "Build started: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+                    def message = "Build finished successful: ${env.JOB_NAME} #${env.BUILD_NUMBER}.\n User build: ${MY_CREDENTIALS_USR}.\n Build area: ${DEPLOY_ENV}"
                     def url = "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage"
                     def payload = """
                     {
@@ -69,6 +90,7 @@ pipeline {
                         "text": "${message}"
                     }
                     """
+                    if 
                     sh """
                         curl -X POST ${url} \
                         -H 'Content-Type: application/json' \
