@@ -79,25 +79,41 @@ pipeline {
             }
         }
 
-        stage("Telegram notification build status") {
-            steps {
+        post {
+            success {
                 script {
-                    def message = "Build finished successful: ${env.JOB_NAME} #${env.BUILD_NUMBER}.\n User build: ${MY_CREDENTIALS_USR}.\n Build area: ${DEPLOY_ENV}"
-                    def url = "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage"
-                    def payload = """
-                    {
-                        "chat_id": "${TELEGRAM_CHAT_ID}",
-                        "text": "${message}"
-                    }
-                    """
-                    sh """
-                        curl -X POST ${url} \
-                        -H 'Content-Type: application/json' \
-                        -d '${payload}'
-                    """
+                    def message = "✅ Build SUCCESSFUL: ${env.JOB_NAME} #${env.BUILD_NUMBER}. \n User: ${MY_CREDENTIALS}. \n Environment: ${DEPLOY_ENV}"
+                    sendTelegramMessage(message)
+                }
+            }
+            failure {
+                script {
+                    def message = "❌ Build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+                    sendTelegramMessage(message)
+                }
+            }
+            aborted {
+                script {
+                    def message = "⚠️ Build ABORTED: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+                    sendTelegramMessage(message)
                 }
             }
         }
+
+        def sendTelegramMessage(String message) {
+        def url = "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage"
+        def payload = """
+        {
+            "chat_id": "${TELEGRAM_CHAT_ID}",
+            "text": "${message}"
+        }
+        """
+        sh """
+            curl -X POST ${url} \
+            -H 'Content-Type: application/json' \
+            -d '${payload}'
+        """
+        }      
     }
     
 }
