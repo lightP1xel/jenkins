@@ -98,9 +98,9 @@ pipeline {
                     sendTelegramMessage(message)
                 }
             }
-        }
-
-        def sendTelegramMessage(String message) {
+        }     
+    }
+     def sendTelegramMessage(String message) {
         def url = "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage"
         def payload = """
         {
@@ -113,7 +113,5 @@ pipeline {
             -H 'Content-Type: application/json' \
             -d '${payload}'
         """
-        }      
-    }
-    
+        } 
 }
