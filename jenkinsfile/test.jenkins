@@ -82,7 +82,7 @@ pipeline {
     post {
             success {
                 script {
-                    def message = "✅ Build SUCCESSFUL: ${env.JOB_NAME} #${env.BUILD_NUMBER}. \n User: ${MY_CREDENTIALS}. \n Environment: ${DEPLOY_ENV}"
+                    def message = "✅ Build SUCCESSFUL: ${env.JOB_NAME} #${env.BUILD_NUMBER}. \n User: ${MY_CREDENTIALS_USR}. \n Environment: ${DEPLOY_ENV}"
                     sendTelegramMessage(message)
                 }
             }
