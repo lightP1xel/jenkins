@@ -77,9 +77,11 @@ pipeline {
             steps {
                 sh 'ssh root@192.168.200.106 \'docker run --rm --name go_app -p 8081:8080 -d go\''
             }
-        }
+        } 
+    }
+}
 
-        post {
+post {
             success {
                 script {
                     def message = "✅ Build SUCCESSFUL: ${env.JOB_NAME} #${env.BUILD_NUMBER}. \n User: ${MY_CREDENTIALS}. \n Environment: ${DEPLOY_ENV}"
@@ -98,9 +100,8 @@ pipeline {
                     sendTelegramMessage(message)
                 }
             }
-        }     
-    }
-}
+        }    
+
 def sendTelegramMessage(String message) {
         def url = "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage"
         def payload = """
