@@ -80,25 +80,25 @@ pipeline {
         } 
     }
     post {
-            success {
-                script {
-                    def message = "✅ Build SUCCESSFUL: ${env.JOB_NAME} #${env.BUILD_NUMBER}.\n User: ${MY_CREDENTIALS_USR}.\n Environment: ${DEPLOY_ENV}"
-                    sendTelegramMessage(message)
-                }
+        success {
+            script {
+                def message = "✅ Build SUCCESSFUL: ${env.JOB_NAME} #${env.BUILD_NUMBER}.\n User: ${MY_CREDENTIALS_USR}.\n Environment: ${DEPLOY_ENV}"
+                sendTelegramMessage(message)
             }
-            failure {
-                script {
-                    def message = "❌ Build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}.\n User: ${MY_CREDENTIALS_USR}.\n Environment: ${DEPLOY_ENV}"
-                    sendTelegramMessage(message)
-                }
+        }
+        failure {
+            script {
+                def message = "❌ Build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}.\n User: ${MY_CREDENTIALS_USR}.\n Environment: ${DEPLOY_ENV}"
+                sendTelegramMessage(message)
             }
-            aborted {
-                script {
-                    def message = "⚠️ Build ABORTED: ${env.JOB_NAME} #${env.BUILD_NUMBER}.\n User: ${MY_CREDENTIALS_USR}.\n Environment: ${DEPLOY_ENV}"
-                    sendTelegramMessage(message)
-                }
+        }
+        aborted {
+            script {
+                def message = "⚠️ Build ABORTED: ${env.JOB_NAME} #${env.BUILD_NUMBER}.\n User: ${MY_CREDENTIALS_USR}.\n Environment: ${DEPLOY_ENV}"
+                sendTelegramMessage(message)
             }
-        }    
+        }
+    }    
 }
 
 def sendTelegramMessage(String message) {
