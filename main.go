@@ -12,6 +12,6 @@ func main() {
 		io.WriteString(w, "Hello, world!\n")
 	}
 
-	http.HandleFunc("/hello", helloHandler)
+	http.HandleFunc("/", helloHandler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
